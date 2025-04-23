@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NovelMe
 
-## Getting Started
+このリポジトリは Next.js（React/TypeScript）を用いた NovelMe のフロントエンド＆APIサーバーです。
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 開発環境の起動方法（Next.js）
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. 依存パッケージのインストール
+   ```bash
+   npm install
+   ```
+2. 開発サーバーの起動
+   ```bash
+   npm run dev
+   ```
+3. ブラウザで [http://localhost:3000](http://localhost:3000) を開く
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## サービス概要
+NovelMe は、ユーザーが自身の経歴や印象的なエピソードを入力すると、その人を主人公にした「小説の表紙タイトル」と「紹介文」をAI（LLM）で自動生成するWebアプリです。
 
-To learn more about Next.js, take a look at the following resources:
+### 目的・価値
+- キャリアや人生の振り返りを促進し、自己肯定感やポジティブな気持ちを高める
+- 非日常的な“自分が主人公”体験を気軽に楽しめる
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### ターゲットユーザー
+- キャリアについて考えたい、かつ新しいものを試すのが好きな20代〜50代
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## MVP（Minimum Viable Product）仕様
 
-## Deploy on Vercel
+### ユーザー向け
+1. 経歴・エピソード入力フォーム（ガイド付き）
+2. 入力内容のバリデーション・不適切内容のブロック
+3. 入力内容をもとにLLMでタイトル・紹介文を生成
+4. 生成結果（タイトル・紹介文）の表示
+5. サービス停止時の停止画面表示
+6. 利用規約・注意事項の表示
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 管理者向け
+1. 生成されたタイトル・紹介文のログ閲覧（ユーザー入力内容は保存しない）
+2. サービス停止の切り替え（API利用数管理）
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 重要な注意点
+- ユーザー登録・ログイン機能は実装しない（完全匿名利用）
+- ユーザーの入力内容自体は保存しない
+- 生成物（タイトル・紹介文）は管理者のみが閲覧できるログとして保存
+- 不適切な内容（非人道的・性的・犯罪等）は生成しないようブロック
+- LLM APIの利用状況によって、簡単にサービス停止＆停止中画面を出せる
+
+### 今後の拡張（MVP後）
+- 小説の表紙画像（書影）の自動生成機能
+
+---
+
+## 技術スタック・システム構成
+
+### フロントエンド
+- Next.js（React/TypeScript）
+- UIライブラリ：MUI（Material UI）や Chakra UI
+
+### バックエンド/APIサーバー
+- Next.jsのAPIルート（/app/api または /pages/api）
+  - フロントエンドと同じプロジェクト内でAPIを実装
+  - サーバーレス関数として動作し、別サーバー不要
+  - LLM API連携、バリデーション、管理者ログ保存などを担当
+
+### LLM API
+- OpenAI API（GPT-4/3.5）や Azure OpenAI Service
+
+### 管理者用ログ保存
+- MVP段階ではファイルベース（JSON/CSV）やSQLite等
+- 本格運用時はクラウドストレージ（S3, Firestore等）や外部DBにも拡張可能
+
+### デプロイ・運用
+- Vercel（Next.js公式）や Netlify
+- 環境変数でAPIキーや管理者用設定を安全に管理
+
+### バリデーション/フィルタ
+- zod, validator.js など
+
+---
+
+## セキュリティ方針
+- バックエンド用のログファイルや管理者向けデータは、APIルートのサーバーサイドコードからのみアクセス可能
+- フロントエンドや一般ユーザーからは直接アクセスできない
+- 管理者用APIには、環境変数によるシークレットキーやIP制限、URL非公開などの制限を設ける
+- デプロイ先のファイル保存は一時領域（/tmp等）を利用し、本格運用時はクラウドストレージ等に移行可能
+- Next.jsのAPIルートはサーバーサイドのみで動作し、クライアントからは隠蔽される
+
+---
+
+## 開発方針
+- モダン開発、アジャイル、ベストプラクティス、ウェルアーキテクチャを重視
+- 仕様や決定事項はドキュメントで管理
+
+---
+
+## 変更履歴
+- 2025-04-23: 初版作成
+- 2025-04-23: 技術スタック・構成とセキュリティ方針を追記
