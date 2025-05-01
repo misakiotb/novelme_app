@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useFormContext } from "./FormContext";
 import { useState } from "react";
 
@@ -93,6 +94,8 @@ function HintPopup() {
 /**
  * Home コンポーネント
  * ユーザー入力フォームと生成結果表示を行う
+ * サービス稼働状況を判定し、休止中なら休止画面を表示する。
+ * 生成ボタン押下時にも都度稼働状況をチェックし、休止中ならエラー表示。
  */
 export default function Home() {
   const { values, setValues } = useFormContext();
@@ -104,11 +107,36 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ title: string; description: string } | null>(null);
   const [error, setError] = useState("");
+  // サービス稼働状況
+  const [serviceActive, setServiceActive] = useState<boolean | null>(null);
+  const [usageCost, setUsageCost] = useState<number | null>(null);
 
   /**
    * 入力を検証し、API へリクエストして結果を state にセットする
+   * 生成ボタン押下時にも /api/usage-status を確認し、休止中ならエラー表示
    */
   const handleGenerate = async () => {
+    // --- 0. サービス稼働状況を再チェック ---
+    setError("");
+    setNgError("");
+    setResult(null);
+    setLoading(true);
+    try {
+      const usageRes = await fetch("/api/usage-status");
+      const usageData = await usageRes.json();
+      setServiceActive(usageData.active);
+      setUsageCost(usageData.cost);
+      if (!usageData.active) {
+        setError("現在、APIコストが上限を超えたためサービスは一時休止中です。");
+        setLoading(false);
+        return;
+      }
+    } catch {
+      setError("サービス状況の確認に失敗しました");
+      setLoading(false);
+      return;
+    }
+
     // --- 1. 初期化 ---
     setTouched(true);
     setNgError("");
@@ -156,6 +184,38 @@ export default function Home() {
       setLoading(false);
     }
   };
+
+  // サイト起動時にサービス稼働状況を取得
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const usageRes = await fetch("/api/usage-status");
+        const usageData = await usageRes.json();
+        setServiceActive(usageData.active);
+        setUsageCost(usageData.cost);
+      } catch {
+        setServiceActive(null);
+      }
+    })();
+  }, []);
+
+  if (serviceActive === false) {
+    // 休止中画面
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', background: '#f8fafc', padding: '2rem' }}>
+        <h1 style={{ fontSize: '2.2rem', fontWeight: 'bold', marginBottom: '1.2rem', color: '#1a202c' }}>
+          現在サービスは休止中です
+        </h1>
+        <p style={{ color: '#dc2626', fontWeight: 'bold', fontSize: '1.1rem', marginBottom: '2rem' }}>
+          APIコストが予算上限を超えたため、一時的にサービスを停止しています。<br />
+          毎日9時にリセットされます。
+        </p>
+        {usageCost !== null && (
+          <p style={{ color: '#64748b', fontSize: '1rem' }}>本日のコスト: ${usageCost.toFixed(2)}</p>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', background: '#f8fafc', padding: '2rem' }}>
