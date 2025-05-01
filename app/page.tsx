@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useFormContext } from "./FormContext";
 import { useState } from "react";
 
@@ -105,7 +104,6 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ title: string; description: string } | null>(null);
   const [error, setError] = useState("");
-  const router = useRouter();
 
   /**
    * 入力を検証し、API へリクエストして結果を state にセットする
@@ -146,10 +144,14 @@ export default function Home() {
         title: data.result?.title || data.title || "生成タイトル",
         description: data.result?.description || data.description || "生成紹介文",
       });
-    } catch (e: any) {
+    } catch (e: unknown) {
       // --- 4. エラー処理 ---
       setLoading(false);
-      setError(e.message || "エラーが発生しました");
+      if (e instanceof Error) {
+        setError(e.message || "エラーが発生しました");
+      } else {
+        setError("予期せぬエラーが発生しました");
+      }
     } finally {
       setLoading(false);
     }

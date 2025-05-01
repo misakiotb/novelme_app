@@ -75,20 +75,25 @@ export async function POST(request: Request): Promise<NextResponse> {
         if (parsed && parsed.title && parsed.description) {
           return NextResponse.json(parsed);
         }
-      } catch (e) {
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error("JSONパースエラー:", error);
+        }
         return NextResponse.json({ message: "生成結果のパースに失敗しました" }, { status: 500 });
       }
     }
     // 期待通りでなければエラー
     return NextResponse.json({ message: "AI生成結果の取得に失敗しました" }, { status: 500 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     clearTimeout(timeoutId);
     console.error('Dify API連携エラー:', error);
 
     // --- 5. エラー処理 ---
     // タイムアウトやその他例外に応じてステータスを返却
-    if (error.name === "AbortError") {
-      return NextResponse.json({ message: "AI生成に時間がかかりすぎています" }, { status: 504 });
+    if (error instanceof Error) {
+      if (error.name === "AbortError") {
+        return NextResponse.json({ message: "AI生成に時間がかかりすぎています" }, { status: 504 });
+      }
     }
     return NextResponse.json({ message: "サーバーエラーが発生しました" }, { status: 500 });
   }
