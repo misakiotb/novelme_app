@@ -49,6 +49,7 @@ describe('Home(page.tsx)', () => {
     fireEvent.change(textarea, { target: { value: '短い' } });
     fireEvent.blur(textarea); // フォーカスアウトでtouched=trueになる
     expect(screen.getByText(/10文字以上入力してください/)).toBeInTheDocument();
+    // ボタンはdisabledのまま
     expect(screen.getByRole('button', { name: /AIで小説タイトルを生成/ })).toBeDisabled();
   });
 
