@@ -12,6 +12,7 @@ import "./globals.css";
  * title, description, keywords, openGraph, twitter カードを設定
  */
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
   title: "NovelMe - あなたが主人公の小説タイトル生成AI",
   description: "経歴や印象的なエピソードを入力すると、AIが“あなた専用”の小説タイトルと紹介文を自動生成。キャリアや人生の振り返り・自己肯定感UPに。NovelMeは匿名・無料で使えるWebサービスです。",
   keywords: [
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "NovelMe - あなたが主人公の小説タイトル生成AI",
     description: "経歴や印象的なエピソードを入力すると、AIが“あなた専用”の小説タイトルと紹介文を自動生成。キャリアや人生の振り返り・自己肯定感UPに。NovelMeは匿名・無料で使えるWebサービスです。",
-    url: "https://novelme.example.com/", // 本番URLに合わせて修正可
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000', 
     siteName: "NovelMe",
     images: [
       {
