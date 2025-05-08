@@ -8,10 +8,10 @@ import Link from "next/link";
  */
 export default function Footer() {
   return (
-    <footer style={{ width: '100%', padding: '1.2rem 0', background: '#f1f5f9', textAlign: 'center', marginTop: 'auto' }}>
-      <div style={{ color: '#64748b', fontSize: '1rem' }}>
+    <footer style={{ width: '100%', padding: '1.2rem 0', background: 'var(--surface)', textAlign: 'center', marginTop: 'auto' }}>
+      <div style={{ color: 'var(--primary-dark)', fontSize: '1rem' }}>
         2025 NovelMe &nbsp;|&nbsp;
-        <Link href="/notice" style={{ color: '#2563eb', textDecoration: 'underline' }}>注意事項</Link>
+        <Link href="/notice" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>注意事項</Link>
       </div>
     </footer>
   );

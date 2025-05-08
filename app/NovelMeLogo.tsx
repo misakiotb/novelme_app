@@ -23,14 +23,14 @@ export default function NovelMeLogo({ size = 44 }: { size?: number }) {
     >
       {/* ブックマーク型アイコン */}
       <g>
-        <rect x="7" y="7" width="30" height="30" rx="7" fill="#fff" stroke="#2563eb" strokeWidth="2.5" />
-        <path d="M15 13 h14 a2 2 0 0 1 2 2 v18 l-9-6-9 6V15a2 2 0 0 1 2-2z" fill="#2563eb" stroke="#2563eb" strokeWidth="1.2" />
+        <rect x="7" y="7" width="30" height="30" rx="7" fill="#fff" stroke="var(--primary)" strokeWidth="2.5" />
+        <path d="M15 13 h14 a2 2 0 0 1 2 2 v18 l-9-6-9 6V15a2 2 0 0 1 2-2z" fill="var(--primary)" stroke="var(--primary)" strokeWidth="1.2" />
       </g>
       {/* NovelMe テキスト */}
       <text
         x="50"
         y="32"
-        fill="#2563eb"
+        fill="var(--primary)"
         fontFamily="Georgia, serif"
         fontWeight="bold"
         fontSize="2.1rem"

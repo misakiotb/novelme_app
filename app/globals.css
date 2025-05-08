@@ -1,8 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8f8f8;
-  --foreground: #171717;
+  --background: #f8f5f2;
+  --foreground: #2d1a1a;
+  --primary: #8B1A1A;
+  --primary-dark: #5C1010;
+  --accent: #C9B037;
+  --surface: #fffaf6;
 }
 
 @theme inline {
@@ -14,8 +18,12 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #fff;
+    --background: #1a0e0e;
+    --foreground: #f5e6c4;
+    --primary: #C0392B;
+    --primary-dark: #5C1010;
+    --accent: #FFD700;
+    --surface: #2d1a1a;
   }
 }
 
@@ -30,7 +38,43 @@ h1, h2, h3, h4, h5, h6, p, span, label, li, a, strong, em {
 }
 
 select, textarea, input, option {
-  color: #111 !important;
-  background: var(--background);
+  color: var(--primary-dark) !important;
+  background: var(--surface);
+  border: 1.5px solid var(--primary);
+  border-radius: 6px;
+  font-size: 1rem;
+  padding: 0.4em 0.8em;
+  transition: border 0.2s, box-shadow 0.2s;
 }
+select:focus, textarea:focus, input:focus {
+  outline: none;
+  border-color: var(--primary-dark);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+option {
+  background: var(--surface);
+  color: var(--primary-dark);
+}
+
+button {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.7em 1.7em;
+  font-size: 1.08rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+button:hover:not(:disabled) {
+  background: var(--primary-dark);
+  box-shadow: 0 2px 8px rgba(139,26,26,0.10);
+}
+button:disabled {
+  background: #ccc;
+  color: #fff;
+  cursor: not-allowed;
+}
+
 
