@@ -19,7 +19,7 @@ function HintPopup() {
         type="button"
         style={{
           background: 'none',
-          color: '#2563eb',
+          color: 'var(--primary)',
           border: 'none',
           fontWeight: 'bold',
           cursor: 'pointer',
@@ -49,7 +49,7 @@ function HintPopup() {
         >
           <div
             style={{
-              background: '#fff',
+              background: 'var(--surface)',
               borderRadius: '1rem',
               boxShadow: '0 2px 16px rgba(0,0,0,0.15)',
               padding: '2rem',
@@ -68,14 +68,14 @@ function HintPopup() {
                 background: 'none',
                 border: 'none',
                 fontSize: '1.5rem',
-                color: '#64748b',
+                color: 'var(--primary-dark)',
                 cursor: 'pointer',
               }}
               aria-label="閉じる"
             >
               ×
             </button>
-            <div style={{ fontWeight: 'bold', color: '#2563eb', fontSize: '1.13rem', marginBottom: '1.1rem' }}>
+            <div style={{ fontWeight: 'bold', color: 'var(--primary)', fontSize: '1.13rem', marginBottom: '1.1rem' }}>
               書き方のヒント
             </div>
             <div style={{ color: '#222', fontSize: '1.04rem', lineHeight: 1.7 }}>
@@ -207,43 +207,43 @@ export default function Home() {
   if (serviceActive === false) {
     // 休止中画面
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', background: '#f8fafc', padding: '2rem' }}>
-        <h1 style={{ fontSize: '2.2rem', fontWeight: 'bold', marginBottom: '1.2rem', color: '#1a202c' }}>
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', background: 'var(--background)', padding: '2rem' }}>
+        <h1 style={{ fontSize: '2.2rem', fontWeight: 'bold', marginBottom: '1.2rem', color: 'var(--primary-dark)' }}>
           現在サービスは休止中です
         </h1>
-        <p style={{ color: '#dc2626', fontWeight: 'bold', fontSize: '1.1rem', marginBottom: '2rem' }}>
+        <p style={{ color: 'var(--primary-dark)', fontWeight: 'bold', fontSize: '1.1rem', marginBottom: '2rem' }}>
           APIコストが予算上限を超えたため、一時的にサービスを停止しています。<br />
           毎日9時にリセットされます。
         </p>
         {usageCost !== null && (
-          <p style={{ color: '#64748b', fontSize: '1rem' }}>本日のコスト: ${usageCost.toFixed(2)}</p>
+          <p style={{ color: 'var(--primary-dark)', fontSize: '1rem' }}>本日のコスト: ${usageCost.toFixed(2)}</p>
         )}
       </div>
     );
   }
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', background: '#f8fafc', padding: '2rem' }}>
-      <h1 style={{ fontSize: '2.2rem', fontWeight: 'bold', marginBottom: '1.2rem', color: '#1a202c' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', background: 'var(--background)', padding: '2rem' }}>
+      <h1 style={{ fontSize: '2.2rem', fontWeight: 'bold', marginBottom: '1.2rem' }}>
         NovelMe 〜あなたが主人公の物語〜
       </h1>
-      <p style={{ maxWidth: 600, textAlign: 'center', marginBottom: '2rem', color: '#374151' }}>
+      <p style={{ maxWidth: 600, textAlign: 'center', marginBottom: '2rem', color: 'var(--foreground)' }}>
         お好みの生成モードを選択し、あなたの経歴や印象的なエピソードを入力して
         <br />
         「AIで生成」ボタンをクリック。
         <br />
         あなたを主人公とした架空の物語の「タイトル」と「紹介文」を自動生成します。
         <br />
-        ※実行前に必ず<Link href="/notice" style={{ color: '#2563eb', textDecoration: 'underline' }}>注意事項</Link>を確認してください
+        ※実行前に必ず<Link href="/notice" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>注意事項</Link>を確認してください
       </p>
-            <form style={{ width: '100%', maxWidth: 960, display: 'flex', flexDirection: 'column', gap: '1.5rem', background: '#fff', padding: '2rem', borderRadius: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
-        <label htmlFor="mode" style={{ fontWeight: 'bold', color: '#2563eb' }}>
+            <form style={{ width: '100%', maxWidth: 960, display: 'flex', flexDirection: 'column', gap: '1.5rem', background: 'var(--surface)', padding: '2rem', borderRadius: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
+        <label htmlFor="mode" style={{ fontWeight: 'bold', color: 'var(--primary)' }}>
           生成モード（小説ジャンル）
         </label>
         <select
           id="mode"
           name="mode"
-          style={{ padding: '0.7rem', borderRadius: '0.5rem', border: '1px solid #cbd5e1', fontSize: '1rem', background: '#f1f5f9' }}
+          style={{ padding: '0.7rem', borderRadius: '0.5rem', border: '2px solid var(--primary)', fontSize: '1rem', background: 'var(--surface)' }}
           value={mode}
           onChange={e => setValues({ ...values, mode: e.target.value })}
         >
@@ -255,7 +255,7 @@ export default function Home() {
           <option value="isekai">異世界転生/転職もの</option>
           <option value="retro">昭和レトロ風味の人情話</option>
         </select>
-        <label htmlFor="episode" style={{ fontWeight: 'bold', color: '#2563eb' }}>
+        <label htmlFor="episode" style={{ fontWeight: 'bold', color: 'var(--primary)' }}>
           経歴・印象的なエピソード
         </label>
         <textarea
@@ -264,62 +264,69 @@ export default function Home() {
           placeholder="例：新卒で営業職に就き、失敗続きだったが、ある出会いをきっかけに成績トップに…など"
           rows={6}
           maxLength={1000}
-          style={{ resize: 'vertical', padding: '1rem', borderRadius: '0.5rem', border: ngError ? '#dc2626 1.5px solid' : '#cbd5e1 1px solid', fontSize: '1rem', background: '#f1f5f9' }}
+          style={{ 
+            resize: 'vertical', 
+            padding: '1rem', 
+            borderRadius: '0.5rem', 
+            border: ngError ? '2px solid var(--error)' : '2px solid var(--primary)', 
+            fontSize: '1rem', 
+            background: 'var(--surface)' 
+          }}
           value={episode}
            onChange={e => {
              setValues({ ...values, episode: e.target.value });
              if (containsNgWord(e.target.value)) {
                setNgError('不適切な内容が含まれています');
              } else {
-               setNgError("");
+               setNgError('');
              }
            }}
            onBlur={() => setTouched(true)}
         />
         {/* 文字数カウンター */}
         <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '-0.7rem', marginBottom: '0.4rem' }}>
-          <span style={{ color: episode.length > 1000 ? '#dc2626' : '#64748b', fontSize: '0.97rem', letterSpacing: '0.01em' }}>
+          <span style={{ color: episode.length > 1000 ? 'var(--error)' : 'var(--primary-dark)', fontSize: '0.97rem', letterSpacing: '0.01em' }}>
             {episode.length}/1000文字
           </span>
         </div>
         {/* 書き方のヒントポップアップ */}
         <HintPopup />
         {!isValid && touched && (
-          <div style={{ color: '#dc2626', fontSize: '0.97rem', marginTop: '-1rem', marginBottom: '-1rem' }}>
+          <div style={{ color: 'var(--primary-dark)', fontSize: '0.97rem', marginTop: '-1rem', marginBottom: '-1rem' }}>
             10文字以上入力してください
           </div>
         )}
         {ngError && (
-          <div style={{ color: '#dc2626', fontWeight: 'bold', marginTop: '0.3rem', marginBottom: '-1rem' }}>
+          <div style={{ color: 'var(--primary-dark)', fontWeight: 'bold', marginTop: '0.3rem', marginBottom: '-1rem' }}>
             {ngError}
           </div>
         )}
         <button
           type="button"
-          style={{ background: '#2563eb', color: '#fff', fontWeight: 'bold', padding: '0.75rem', borderRadius: '0.5rem', border: 'none', fontSize: '1.1rem', cursor: isValid && !loading ? 'pointer' : 'not-allowed', opacity: isValid ? 1 : 0.5 }}
+          style={{ background: 'var(--primary)', color: '#fff', fontWeight: 'bold', padding: '0.75rem', borderRadius: '0.5rem', border: 'none', fontSize: '1.1rem', cursor: isValid && !loading ? 'pointer' : 'not-allowed', opacity: isValid ? 1 : 0.5 }}
           onClick={handleGenerate}
           disabled={!isValid || loading}
         >
           {loading ? "生成中..." : "AIで生成"}
         </button>
         {error && (
-          <div style={{ color: '#dc2626', fontWeight: 'bold', marginTop: '1rem' }}>{error}</div>
+          <div style={{ color: 'var(--primary-dark)', fontWeight: 'bold', marginTop: '1rem' }}>{error}</div>
         )}
         {/* 生成結果エリア: 初期表示では非表示、生成ボタンで結果が得られたときだけ表示 */}
         {result !== null && (
           <div
             style={{
-              background: 'linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%)',
+              background: 'linear-gradient(135deg, #C9B037 0%, #F8F5F2 100%)',
               borderRadius: '1.5rem',
               padding: '2.2rem 1.5rem 2.5rem 1.5rem',
               marginTop: '2.5rem',
-              boxShadow: '0 4px 24px rgba(37,99,235,0.12)',
+              boxShadow: '0 4px 24px rgba(139,26,26,0.12)',
               maxWidth: 960,
               width: '100%',
               display: 'flex',
               flexDirection: 'row',
               alignItems: 'flex-start',
-              border: '2.5px solid #6366f1',
+              border: '2.5px solid var(--primary)',
               position: 'relative',
               gap: 24,
             }}
@@ -335,12 +342,12 @@ export default function Home() {
                 width: 120,
                 height: 170,
                 borderRadius: '0.6rem',
-                boxShadow: '0 2px 8px rgba(37,99,235,0.10)',
+                boxShadow: '0 2px 8px rgba(139,26,26,0.10)',
                 marginRight: 24,
                 flexShrink: 0,
-                border: '1.5px solid #6366f1',
+                border: '1.5px solid var(--primary)',
                 objectFit: 'cover',
-                background: '#e0e7ff',
+                background: 'var(--accent)',
                 display: 'block',
               }}
             />
@@ -349,17 +356,17 @@ export default function Home() {
               <div style={{
                 fontWeight: 'bold',
                 fontSize: '2.1rem',
-                color: '#2563eb',
+                color: 'var(--primary)',
                 marginBottom: '1.2rem',
                 textAlign: 'left',
-                textShadow: '0 2px 12px #c7d2fe',
+                textShadow: '0 2px 12px #C9B037',
                 letterSpacing: '0.04em',
                 lineHeight: 1.25,
                 width: '100%',
               }}>{result.title}</div>
               <div style={{
                 fontSize: '1.13rem',
-                color: '#374151',
+                color: 'var(--foreground)',
                 background: 'rgba(255,255,255,0.82)',
                 borderRadius: '0.7rem',
                 padding: '1.2rem 1rem',

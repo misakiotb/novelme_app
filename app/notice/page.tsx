@@ -7,9 +7,9 @@
  */
 export default function Notice() {
   return (
-    <div style={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#f8fafc', padding: '2rem' }}>
-      <h1 style={{ fontSize: '2rem', fontWeight: 'bold', color: '#2563eb', marginBottom: '2rem' }}>注意事項</h1>
-      <ul style={{ maxWidth: 600, color: '#374151', fontSize: '1.12rem', lineHeight: 1.8,listStyleType: 'disc', paddingLeft: '1.2rem'}}>
+    <div style={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'var(--surface)', padding: '2rem' }}>
+      <h1 style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--primary)', marginBottom: '2rem' }}>注意事項</h1>
+      <ul style={{ maxWidth: 600, color: 'var(--primary-dark)', fontSize: '1.12rem', lineHeight: 1.8,listStyleType: 'disc', paddingLeft: '1.2rem'}}>
         <li>本サービスはAI（LLM：大規模言語モデル）を利用してタイトル、紹介文、および書影画像を生成しています。</li>
         <li>生成結果は必ずしも事実や現実と一致するものではありません。</li>
         <li>入力内容、生成結果はシステム内に実行ログとして残ります。個人情報や機密情報、人に見られて困る情報の入力はお控えください。</li>
