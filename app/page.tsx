@@ -1,8 +1,11 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { useFormContext } from "./FormContext";
 import { useState } from "react";
+import { containsNgWord } from '../utils/ngCheck';
+import Image from "next/image";
 
 /**
  * HintPopup コンポーネント
@@ -101,7 +104,7 @@ export default function Home() {
   const { values, setValues } = useFormContext();
   const episode = values.episode;
   const mode = values.mode;
-  const isValid = episode.length >= 10;
+  const isValid = episode.length >= 10 && !containsNgWord(episode);
   const [touched, setTouched] = useState(false);
   const [ngError, setNgError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -149,11 +152,13 @@ export default function Home() {
     try {
       // 英語value→日本語ラベル変換
       const modeMap: Record<string, string> = {
-        fantasy: "ファンタジー風",
-        ranobe: "ラノベ風",
-        mystery: "ミステリー風",
-        watakushi: "私小説風",
-        history: "歴史小説風",
+        fantasy: "ファンタジー冒険譚 - キャリアの挑戦を魔法や冒険に置き換え、スキルを魔法の能力として表現",
+        cyberpunk: "サイバーパンク - テクノロジーとの関わりを強調し、未来的で暗めの世界観で描写",
+        romance: "青春恋愛小説 - キャリアの選択や成長を、恋愛や友情のストーリーとして描く",
+        mystery: "ミステリー/推理小説 - キャリアでの問題解決や謎を、探偵が事件を解決するように描写",
+        horror: "ホラー/サスペンス - キャリアの困難や不安を恐怖やサスペンスとして描写",
+        isekai: "異世界転生/転職もの - キャリアチェンジを異世界での新しい人生として描く",
+        retro: "昭和レトロ風味の人情話 - キャリアの出会いや苦労を、下町の人情模様として描写",
       };
       const modeForApi = modeMap[mode] || mode;
       const res = await fetch("/api/generate", {
@@ -220,14 +225,16 @@ export default function Home() {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', background: '#f8fafc', padding: '2rem' }}>
       <h1 style={{ fontSize: '2.2rem', fontWeight: 'bold', marginBottom: '1.2rem', color: '#1a202c' }}>
-        NovelMe 〜あなたが主人公の小説タイトル生成〜
+        NovelMe 〜あなたが主人公の物語〜
       </h1>
       <p style={{ maxWidth: 600, textAlign: 'center', marginBottom: '2rem', color: '#374151' }}>
-        あなたの経歴や印象的なエピソードを入力すると、AIが「小説の表紙タイトル」と「紹介文」を自動生成します。
+        お好みの生成モードを選択し、あなたの経歴や印象的なエピソードを入力して
         <br />
-        まずは下のフォームに、あなたのストーリーを自由に書いてみてください。
+        「AIで生成」ボタンをクリック。
         <br />
-        ※実行前に必ず注意事項を確認してください
+        あなたを主人公とした架空の物語の「タイトル」と「紹介文」を自動生成します。
+        <br />
+        ※実行前に必ず<Link href="/notice" style={{ color: '#2563eb', textDecoration: 'underline' }}>注意事項</Link>を確認してください
       </p>
             <form style={{ width: '100%', maxWidth: 960, display: 'flex', flexDirection: 'column', gap: '1.5rem', background: '#fff', padding: '2rem', borderRadius: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
         <label htmlFor="mode" style={{ fontWeight: 'bold', color: '#2563eb' }}>
@@ -240,11 +247,13 @@ export default function Home() {
           value={mode}
           onChange={e => setValues({ ...values, mode: e.target.value })}
         >
-          <option value="fantasy">ファンタジー風</option>
-          <option value="ranobe">ラノベ風</option>
-          <option value="mystery">ミステリー風</option>
-          <option value="watakushi">私小説風</option>
-          <option value="history">歴史小説風</option>
+          <option value="fantasy">ファンタジー冒険譚</option>
+          <option value="cyberpunk">サイバーパンク</option>
+          <option value="romance">青春恋愛小説</option>
+          <option value="mystery">ミステリー/推理小説</option>
+          <option value="horror">ホラー/サスペンス</option>
+          <option value="isekai">異世界転生/転職もの</option>
+          <option value="retro">昭和レトロ風味の人情話</option>
         </select>
         <label htmlFor="episode" style={{ fontWeight: 'bold', color: '#2563eb' }}>
           経歴・印象的なエピソード
@@ -257,8 +266,15 @@ export default function Home() {
           maxLength={1000}
           style={{ resize: 'vertical', padding: '1rem', borderRadius: '0.5rem', border: ngError ? '#dc2626 1.5px solid' : '#cbd5e1 1px solid', fontSize: '1rem', background: '#f1f5f9' }}
           value={episode}
-          onChange={e => { setValues({ ...values, episode: e.target.value }); setNgError(""); }}
-          onBlur={() => setTouched(true)}
+           onChange={e => {
+             setValues({ ...values, episode: e.target.value });
+             if (containsNgWord(e.target.value)) {
+               setNgError('不適切な内容が含まれています');
+             } else {
+               setNgError("");
+             }
+           }}
+           onBlur={() => setTouched(true)}
         />
         {/* 文字数カウンター */}
         <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '-0.7rem', marginBottom: '0.4rem' }}>
@@ -284,7 +300,7 @@ export default function Home() {
           onClick={handleGenerate}
           disabled={!isValid || loading}
         >
-          {loading ? "生成中..." : "AIで小説タイトルを生成"}
+          {loading ? "生成中..." : "AIで生成"}
         </button>
         {error && (
           <div style={{ color: '#dc2626', fontWeight: 'bold', marginTop: '1rem' }}>{error}</div>
@@ -309,29 +325,25 @@ export default function Home() {
             }}
           >
             {/* 書影ダミーブロック */}
-            <div
+            <Image
+              src="/dummy-cover.png"
+              alt="書影ダミー"
+              width={120}
+              height={170}
               style={{
                 minWidth: 120,
                 width: 120,
                 height: 170,
-                background: 'repeating-linear-gradient(135deg, #e0e7ff, #c7d2fe 12px, #e0e7ff 24px)',
                 borderRadius: '0.6rem',
                 boxShadow: '0 2px 8px rgba(37,99,235,0.10)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
                 marginRight: 24,
                 flexShrink: 0,
                 border: '1.5px solid #6366f1',
-                fontSize: '1.6rem',
-                color: '#64748b',
-                fontWeight: 'bold',
-                letterSpacing: '0.08em',
-                userSelect: 'none',
+                objectFit: 'cover',
+                background: '#e0e7ff',
+                display: 'block',
               }}
-            >
-              書影ダミー
-            </div>
+            />
             {/* テキスト側 */}
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <div style={{
