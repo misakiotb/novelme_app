@@ -68,14 +68,14 @@ function HintPopup() {
                 background: 'none',
                 border: 'none',
                 fontSize: '1.5rem',
-                color: 'var(--primary-dark)',
+                color: '#64748b',
                 cursor: 'pointer',
               }}
               aria-label="閉じる"
             >
               ×
             </button>
-            <div style={{ fontWeight: 'bold', color: 'var(--primary)', fontSize: '1.13rem', marginBottom: '1.1rem' }}>
+            <div style={{ fontWeight: 'bold', color: '#2563eb', fontSize: '1.13rem', marginBottom: '1.1rem' }}>
               書き方のヒント
             </div>
             <div style={{ color: '#222', fontSize: '1.04rem', lineHeight: 1.7 }}>
@@ -237,13 +237,13 @@ export default function Home() {
         ※実行前に必ず<Link href="/notice" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>注意事項</Link>を確認してください
       </p>
             <form style={{ width: '100%', maxWidth: 960, display: 'flex', flexDirection: 'column', gap: '1.5rem', background: 'var(--surface)', padding: '2rem', borderRadius: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
-        <label htmlFor="mode" style={{ fontWeight: 'bold', color: 'var(--primary)' }}>
+        <label htmlFor="mode" style={{ fontWeight: 'bold', color: 'var(--foreground)' }}>
           生成モード（小説ジャンル）
         </label>
         <select
           id="mode"
           name="mode"
-          style={{ padding: '0.7rem', borderRadius: '0.5rem', border: '2px solid var(--primary)', fontSize: '1rem', background: 'var(--surface)' }}
+          style={{ padding: '0.7rem', borderRadius: '0.5rem', border: '2px solid var(--primary)', fontSize: '1rem', background: 'var(--surface)'}}
           value={mode}
           onChange={e => setValues({ ...values, mode: e.target.value })}
         >
@@ -270,7 +270,7 @@ export default function Home() {
             borderRadius: '0.5rem', 
             border: ngError ? '2px solid var(--error)' : '2px solid var(--primary)', 
             fontSize: '1rem', 
-            background: 'var(--surface)' 
+            background: 'var(--surface)'
           }}
           value={episode}
            onChange={e => {
