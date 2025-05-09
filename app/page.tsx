@@ -237,7 +237,7 @@ export default function Home() {
         ※実行前に必ず<Link href="/notice" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>注意事項</Link>を確認してください
       </p>
             <form style={{ width: '100%', maxWidth: 960, display: 'flex', flexDirection: 'column', gap: '1.5rem', background: 'var(--surface)', padding: '2rem', borderRadius: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
-        <label htmlFor="mode" style={{ fontWeight: 'bold', color: 'var(--foreground)' }}>
+        <label htmlFor="mode" style={{ fontWeight: 'bold', color: 'var(--primary)' }}>
           生成モード（小説ジャンル）
         </label>
         <select
